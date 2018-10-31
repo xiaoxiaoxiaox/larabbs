@@ -178,6 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\EasySmsServiceProvider::class,
+
+        /*
+         * ide-helper
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
