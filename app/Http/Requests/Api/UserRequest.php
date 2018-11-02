@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         switch ($this->method()){
             case 'POST':
                 return [
-                    'name' => 'required|string|max:255',
+                    'name' => 'required|between:3,25|regex:/^[A-Za-z0-9\-\_]+$/|unique:users',
                     'password' => 'required|string|min:6',
                     'verification_key' => 'required|string',
                     'verification_code' => 'required|string'
@@ -42,7 +42,6 @@ class UserRequest extends FormRequest
                 ];
                 break;
         }
-
     }
 
     public function attributes()
