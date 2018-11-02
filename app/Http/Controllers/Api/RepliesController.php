@@ -21,6 +21,13 @@ class RepliesController extends Controller
             ->setStatusCode(201);
     }
 
+    public function index(Topic $topic)
+    {
+        $replies = $topic->replies()->paginate(20);
+
+        return $this->response->paginator($replies,new ReplyTransformer());
+    }
+
     public function destroy(Topic $topic, Reply $reply)
     {
         if ($reply->topic_id != $topic->id) {
