@@ -18,7 +18,10 @@ class TopicsController extends Controller
             $query->where('category_id', $categoryId);
         }
 
+//        $query->WithOrder($request->order);
+
         // 为了说明 N+1问题，不使用 scopeWithOrder
+        //dingo自动实现解决N+1
         switch ($request->order) {
             case 'recent':
                 $query->recent();
@@ -40,6 +43,11 @@ class TopicsController extends Controller
             ->paginate(20);
 
         return $this->response->paginator($topics, new TopicTransformer());
+    }
+
+    public function show(Topic $topic)
+    {
+        return $this->response->item($topic, new TopicTransformer());
     }
 
     public function store(TopicRequest $request, Topic $topic)
