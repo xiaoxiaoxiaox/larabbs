@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\ReplyRequest;
 use App\Models\Reply;
 use App\Models\Topic;
+use App\Models\User;
 use App\Transformers\ReplyTransformer;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,13 @@ class RepliesController extends Controller
         return $this->response->paginator($replies,new ReplyTransformer());
     }
 
+    public function userIndex(User $user)
+    {
+        $replies = $user->replies()->paginate(20);
+
+        return $this->response->paginator($replies, new ReplyTransformer());
+    }
+
     public function destroy(Topic $topic, Reply $reply)
     {
         if ($reply->topic_id != $topic->id) {
@@ -35,6 +43,7 @@ class RepliesController extends Controller
         }
 
         $this->authorize('destroy', $reply);
+
         $reply->delete();
 
         return $this->response->noContent();
